@@ -37,6 +37,8 @@ export async function fetchWithTimeout(resource, options: any = {}) {
   const response = await fetch(resource, {
     ...options,
     signal: controller.signal,
+  }).catch((err) => {
+    console.log(err);
   });
   clearTimeout(id);
   return response;
