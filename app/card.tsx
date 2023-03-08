@@ -43,13 +43,13 @@ export default function Card(props) {
       }}
     >
       {contentType.startsWith("image/") && mediaSrc != "" && (
-        <NextImage
+        <img
           className="w-full h-full opacity-90 object-cover"
           alt={props.nft.name}
           src={mediaSrc}
+          crossOrigin="anonymous"
           width={300}
           height={300}
-          crossOrigin="anonymous"
         />
       )}
       {contentType.startsWith("video/") && mediaSrc != "" && (
