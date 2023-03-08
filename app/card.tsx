@@ -10,20 +10,28 @@ export default function Card(props) {
   const [loading, setLoading] = useState(true);
 
   let imageUrl = prefixToUri(
-    props.nft.imageUrl != "" ? props.nft.imageUrl : props.nft.metadata.image
+    props.nft?.imageUrl != "" ? props.nft?.imageUrl : props.nft?.metadata?.image
   );
+
   useEffect(() => {
     if (
       imageUrl == undefined ||
       imageUrl == "" ||
-      imageUrl == "https://ipfs.io/ipfs/"
+      imageUrl == "https://ipfs.io/ipfs/" ||
+      imageUrl == "/missing-image.webp"
     ) {
       imageUrl = "/missing-image.webp";
+      setContentType("image/webp");
+      setMediaSrc(imageUrl);
+      setLoading(false);
+      return;
     }
 
-    fetch(imageUrl)
+    fetch("/api/proxy/" + btoa(imageUrl))
       .then((response) => {
-        setContentType(response.headers.get("Content-Type") || "");
+        setContentType(
+          response.headers.get("Content-Type") || "No Content Type Header"
+        );
         return response.blob();
       })
       .then((blob) => {
@@ -64,6 +72,18 @@ export default function Card(props) {
           <source src={mediaSrc} type={contentType} />
           Your browser does not support HTML5 video.
         </video>
+      )}
+      {(!contentType.startsWith("image/") ||
+        !contentType.startsWith("video/")) && (
+        <div className="w-full h-full opacity-90 object-cover object-center bg-gray-700">
+          <NextImage
+            src="/missing-image.webp"
+            alt="Missing Image"
+            width={300}
+            height={300}
+            layout="responsive"
+          />
+        </div>
       )}
       <div className="absolute inset-0 bg-black bg-opacity-5 group-hover:bg-opacity-50 transition duration-150 ease-in-out">
         <h1 className="text-2xl text-white group-hover:text-red-600 text-center">

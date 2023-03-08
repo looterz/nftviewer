@@ -64,12 +64,16 @@ export default function Home() {
           return;
         }
 
-        if (data?.assets?.length === 0) {
+        if (
+          data == undefined ||
+          data.assets == undefined ||
+          data?.assets?.length === 0
+        ) {
           setLoading(false);
           return;
         }
 
-        setResults([...results, ...data.assets]);
+        setResults([...results, ...data?.assets]);
 
         if (data.nextPageToken === lastPageToken) {
           setLoading(false);

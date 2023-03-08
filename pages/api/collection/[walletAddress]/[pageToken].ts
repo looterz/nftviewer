@@ -1,4 +1,4 @@
-import { prefixToUri } from "@/utils";
+import { prefixToUri, fetchWithTimeout } from "@/utils";
 import { AnkrProvider, Nft } from "@ankr.com/ankr.js";
 
 const provider = new AnkrProvider("");
@@ -22,8 +22,8 @@ export default async function handler(req, res) {
           data.assets.map(async (asset) => {
             let newAsset: any = { ...asset, metadata: {}, owner: walletAddress };
             if (asset.tokenUrl != "") {
-              await fetch(prefixToUri(asset.tokenUrl))
-                .then((res) => res.json().catch((err) => console.log(err)))
+              await fetchWithTimeout(prefixToUri(asset.tokenUrl), { timeout: 5000 })
+                .then((res) => res.json().catch)
                 .then((metaData) => {
                   newAsset.metadata = metaData;
                 })
