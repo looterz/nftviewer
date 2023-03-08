@@ -49,6 +49,7 @@ export default function Card(props) {
           src={mediaSrc}
           width={300}
           height={300}
+          crossOrigin="anonymous"
         />
       )}
       {contentType.startsWith("video/") && mediaSrc != "" && (
@@ -58,6 +59,7 @@ export default function Card(props) {
           loop
           muted
           playsInline
+          crossOrigin="anonymous"
         >
           <source src={mediaSrc} type={contentType} />
           Your browser does not support HTML5 video.
