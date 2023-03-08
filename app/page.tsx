@@ -28,7 +28,7 @@ export default function Home() {
         setWallet(e.target.value);
         setLoading(true);
         fetch(searchEndpoint(e.target.value, nextPageToken))
-          .then((res) => res.json())
+          .then((res) => res.json().catch(() => undefined))
           .then((data) => {
             if (
               data == undefined ||
