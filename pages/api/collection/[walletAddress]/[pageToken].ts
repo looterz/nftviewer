@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       .getNFTsByOwner({
         walletAddress: walletAddress,
         blockchain: ["eth", "polygon", "bsc"],
-        pageSize: 20,
+        pageSize: 10,
         pageToken: pageToken != "0" ? pageToken : undefined,
       })
       .then((data) => {
