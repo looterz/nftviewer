@@ -23,7 +23,7 @@ export default async function handler(req, res) {
             let newAsset: any = { ...asset, metadata: {}, owner: walletAddress };
             if (asset.tokenUrl != "") {
               await fetchWithTimeout(prefixToUri(asset.tokenUrl), { timeout: 5000 })
-                .then((res) => res.json().catch)
+                .then((apiRes: Response) => apiRes.json())
                 .then((metaData) => {
                   newAsset.metadata = metaData;
                 })
